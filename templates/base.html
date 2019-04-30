@@ -12,6 +12,13 @@
     <title>Document</title>
 </head>
 <body>
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for category, message in messages %}
+                {{ message }}
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
     {% block content %}{% endblock content %}
 </body>
 </html>

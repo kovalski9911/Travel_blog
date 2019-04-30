@@ -5,6 +5,7 @@ from flask_bcrypt import Bcrypt
 
 from posts.routes import posts
 from users.routes import users
+from main.routes import main
 
 
 app = Flask(__name__)
@@ -15,3 +16,4 @@ bcrypt = Bcrypt(app)
 
 app.register_blueprint(posts)
 app.register_blueprint(users)
+app.register_blueprint(main)

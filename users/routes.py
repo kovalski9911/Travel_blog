@@ -1,5 +1,4 @@
-from flask import Blueprint
-from flask import render_template
+from flask import Blueprint, render_template, flash, redirect, url_for
 from users.forms import RegistrationForm, LoginForm
 
 
@@ -8,6 +7,9 @@ users = Blueprint('users', __name__)
 @users.route('/register', methods=['GET', 'POST'])
 def register():
     form = RegistrationForm()
+    if form.validate_on_submit():
+        flash(f'Accaunt created for {form.username.data}')
+        return redirect(url_for('main.home'))
     return render_template('register.html', title='Register', form=form)
 
 

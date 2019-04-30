@@ -6,16 +6,41 @@
         {{ form.hidden_tag() }}
 
         {{ form.username.label }}
-        {{ form.username }}
+        {% if form.username.errors %}
+            {% for error in form.username.errors %}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.username }}
+        {% endif %}
+
 
         {{ form.email.label }}
-        {{ form.email }}
+        {% if form.email.errors %}
+            {% for error in form.email.errors %}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.email }}
+        {% endif %}
 
         {{ form.password.label }}
-        {{ form.password }}
+        {% if form.password.errors %}
+            {% for error in form.password.errors %}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.password }}
+        {% endif %}
 
         {{ form.confirm_password.label }}
-        {{ form.confirm_password }}
+        {% if form.confirm_password.errors %}
+            {% for error in form.confirm_password.errors %}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.confirm_password }}
+        {% endif %}
 
         {{ form.submit }}
     </form>
