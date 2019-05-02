@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import login_user, current_user
+from flask_login import login_user, current_user, logout_user
 
 from travel_blog.users.forms import RegistrationForm, LoginForm
 from travel_blog import db, bcrypt
@@ -36,3 +36,9 @@ def login():
         else:
             flash(f'Please check email and password')
     return render_template('login.html', title='login', form=form)
+
+
+@users.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('main.home'))
