@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, flash, redirect, url_for
-from flask_login import login_user, current_user, logout_user
+from flask import Blueprint, render_template, flash, redirect, url_for, request
+from flask_login import login_user, current_user, logout_user, login_required
 
 from travel_blog.users.forms import RegistrationForm, LoginForm
 from travel_blog import db, bcrypt
@@ -32,7 +32,8 @@ def login():
         user = User.query.filter_by(email=form.email.data).first()
         if user and bcrypt.check_password_hash(user.password, form.password.data):
             login_user(user, remember=form.remember.data)
-            return redirect(url_for('main.home'))
+            next_page = request.args.get('next')
+            return redirect(next_page) if next_page else redirect(url_for('main.home'))
         else:
             flash(f'Please check email and password')
     return render_template('login.html', title='login', form=form)
@@ -42,3 +43,9 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('main.home'))
+
+
+@users.route('/profile')
+@login_required
+def profile():
+    return render_template('profile.html', title='Profile')
