@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for
-from users.forms import RegistrationForm, LoginForm
+
+from travel_blog.users.forms import RegistrationForm, LoginForm
+from travel_blog import db, bcrypt
 
 
 users = Blueprint('users', __name__)
@@ -13,7 +15,10 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 
-@users.route('/login')
+@users.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    if form.validate_on_submit():
+        flash(f'You have been logged in')
+        return redirect(url_for('main.home'))
     return render_template('login.html', title='login', form=form)

@@ -2,22 +2,23 @@
 
 {% block content %}
     <h1>Blueprint for Users</h1>
-    <form method="POST" action="">
+    <form method="POST" action="" novalidate>
         {{ form.hidden_tag() }}
 
         {{ form.username.label }}
         {% if form.username.errors %}
             {% for error in form.username.errors %}
+                {{ form.username }}
                 {{ error }}
             {% endfor %}
         {% else %}
             {{ form.username }}
         {% endif %}
 
-
         {{ form.email.label }}
         {% if form.email.errors %}
             {% for error in form.email.errors %}
+                {{ form.email }}
                 {{ error }}
             {% endfor %}
         {% else %}
@@ -27,6 +28,7 @@
         {{ form.password.label }}
         {% if form.password.errors %}
             {% for error in form.password.errors %}
+                {{ form.password }}
                 {{ error }}
             {% endfor %}
         {% else %}
@@ -36,6 +38,7 @@
         {{ form.confirm_password.label }}
         {% if form.confirm_password.errors %}
             {% for error in form.confirm_password.errors %}
+                {{ form.confirm_password }}
                 {{ error }}
             {% endfor %}
         {% else %}
