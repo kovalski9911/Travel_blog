@@ -48,4 +48,5 @@ def logout():
 @users.route('/profile')
 @login_required
 def profile():
-    return render_template('profile.html', title='Profile')
+    image = url_for('static', filename='profiles_avatars/' + current_user.image_file)
+    return render_template('profile.html', title='Profile', image=image)

@@ -2,5 +2,9 @@
 
 {% block content %}
     <h1>Profile Page</h1>
-    {{ current_user.username }}
+
+    <img src='{{ image }}'><br>
+    {{ current_user.username }}<br>
+    {{ current_user.email }}
+    
 {% endblock %}
