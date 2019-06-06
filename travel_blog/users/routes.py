@@ -4,6 +4,7 @@ from flask_login import login_user, current_user, logout_user, login_required
 from travel_blog.users.forms import RegistrationForm, LoginForm, UpdateProfileForm
 from travel_blog import db, bcrypt
 from travel_blog.models import User
+from .utils import save_image_file
 
 
 users = Blueprint('users', __name__)
@@ -50,6 +51,9 @@ def logout():
 def profile():
     form = UpdateProfileForm()
     if form.validate_on_submit():
+        if form.image_file.data:
+            image_file = save_image_file(form.image_file.data)
+            current_user.image_file = image_file
         current_user.username = form.username.data
         current_user.email = form.email.data
         db.session.commit()
