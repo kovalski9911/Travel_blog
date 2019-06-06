@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, flash, redirect, url_for, request
 from flask_login import login_user, current_user, logout_user, login_required
 
-from travel_blog.users.forms import RegistrationForm, LoginForm
+from travel_blog.users.forms import RegistrationForm, LoginForm, UpdateProfileForm
 from travel_blog import db, bcrypt
 from travel_blog.models import User
 
@@ -45,8 +45,18 @@ def logout():
     return redirect(url_for('main.home'))
 
 
-@users.route('/profile')
+@users.route('/profile', methods=['GET', 'POST'])
 @login_required
 def profile():
+    form = UpdateProfileForm()
+    if form.validate_on_submit():
+        current_user.username = form.username.data
+        current_user.email = form.email.data
+        db.session.commit()
+        flash(f'Your accaunt has been updated')
+        redirect(url_for('users.profile'))
+    elif request.method == 'GET':
+        form.username.data = current_user.username
+        form.email.data = current_user.email
     image = url_for('static', filename='profiles_avatars/' + current_user.image_file)
-    return render_template('profile.html', title='Profile', image=image)
+    return render_template('profile.html', title='Profile', image=image, form=form)
