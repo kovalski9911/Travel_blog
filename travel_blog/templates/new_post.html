@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    New Post
+
+    <form method="POST" action="" enctype="multipart/form-data" novalidate>
+        {{ form.hidden_tag() }}
+
+        {{ form.title.label }}
+        {% if form.title.errors %}
+            {% for error in form.title.errors %}
+                {{ form.title }}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.title }}
+        {% endif %}
+
+        {{ form.content.label }}
+        {% if form.content.errors %}
+            {% for error in form.content.errors %}
+                {{ form.content }}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.content }}
+        {% endif %}
+
+        {{ form.photo.label }}
+        {% if form.photo.errors %}
+            {% for error in form.photo.errors %}
+                {{ form.photo }}
+                {{ error }}
+            {% endfor %}
+        {% else %}
+            {{ form.photo }}
+        {% endif %}
+
+        {{ form.submit }}
+    </form>
+{% endblock %}
