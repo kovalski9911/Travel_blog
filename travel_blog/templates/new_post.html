@@ -3,39 +3,40 @@
 {% block content %}
     New Post
 
-    <form method="POST" action="" enctype="multipart/form-data" novalidate>
-        {{ form.hidden_tag() }}
+    <form method="POST" action="" enctype="multipart/form-data" novalidate multiple="multiple">
+        {{ post_form.hidden_tag() }}
+        {{ photo_form.hidden_tag() }}
 
-        {{ form.title.label }}
-        {% if form.title.errors %}
-            {% for error in form.title.errors %}
-                {{ form.title }}
+        {{ post_form.title.label }}
+        {% if post_form.title.errors %}
+            {% for error in post_form.title.errors %}
+                {{ post_form.title }}
                 {{ error }}
             {% endfor %}
         {% else %}
-            {{ form.title }}
+            {{ post_form.title }}
         {% endif %}
 
-        {{ form.content.label }}
-        {% if form.content.errors %}
-            {% for error in form.content.errors %}
-                {{ form.content }}
+        {{ post_form.content.label }}
+        {% if post_form.content.errors %}
+            {% for error in post_form.content.errors %}
+                {{ post_form.content }}
                 {{ error }}
             {% endfor %}
         {% else %}
-            {{ form.content }}
+            {{ post_form.content }}
         {% endif %}
 
-        {{ form.photo.label }}
-        {% if form.photo.errors %}
-            {% for error in form.photo.errors %}
-                {{ form.photo }}
+        {{ photo_form.photo.label }}
+        {% if photo_form.photo.errors %}
+            {% for error in photo_form.photo.errors %}
+                {{ photo_form.photo }}
                 {{ error }}
             {% endfor %}
         {% else %}
-            {{ form.photo }}
+            {{ photo_form.photo }}
         {% endif %}
 
-        {{ form.submit }}
+        {{ post_form.submit }}
     </form>
 {% endblock %}

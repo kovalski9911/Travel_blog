@@ -25,8 +25,15 @@ class Post(db.Model):
     title = db.Column(db.String(100), nullable=False)
     date_posted = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     content = db.Column(db.Text, nullable=False)
-    photo = db.Column(db.String(20), nullable=False)
+    # photo = db.Column(db.String(20), nullable=False)
+    photo = db.relationship('Photo', backref='photo', lazy=True)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
 
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
+
+
+class Photo(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    image = db.Column(db.String(20), nullable=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'), nullable=False)

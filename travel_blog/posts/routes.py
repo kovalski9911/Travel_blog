@@ -1,10 +1,10 @@
-from flask import Blueprint, flash, redirect, url_for
+from flask import Blueprint, flash, redirect, url_for, request
 from flask import render_template
 from flask_login import login_required, current_user
 
-from travel_blog.models import Post
+from travel_blog.models import Post, Photo
 from travel_blog import db
-from .forms import PostForm
+from .forms import PostForm, PhotoForm
 from travel_blog.users.utils import save_image_file
 
 
@@ -17,23 +17,29 @@ def post():
 
 
 @posts.route('/post/new', methods=['GET', 'POST'])
-@login_required
 def post_new():
-    form = PostForm()
-    if form.validate_on_submit():
-        image_file = save_image_file(
-            form.photo.data, 
-            'static/blog_content'
-            )
+    post_form = PostForm()
+    photo_form = PhotoForm()
+
+    if post_form.validate_on_submit() and photo_form.validate_on_submit():
+
         post = Post(
-            title=form.title.data, 
-            content=form.content.data, 
-            user_id=current_user.id, 
-            photo=image_file
+            title=post_form.title.data, 
+            content=post_form.content.data, 
+            user_id=current_user.id,
             )
         db.session.add(post)
         db.session.commit()
+
+        for f in request.files.getlist('photo'):
+
+            image_file = save_image_file(f, 'static/blog_content')
+            
+            photo = Photo(post_id=post.id, image=image_file)
+            db.session.add(photo)
+            db.session.commit()
+
         flash(f'Your post has been created!!!')
         return redirect(url_for('main.home'))
-        
-    return render_template('new_post.html', title='New Post', form=form)
+
+    return render_template('new_post.html', post_form=post_form,  photo_form=photo_form)
